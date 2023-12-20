@@ -1,0 +1,468 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+
+    int n_random(); //Iniciamos la funcion random, que creara cada uno de los numeros rnadom
+    int print_matriz(int matriz[][30], int x,int y);
+
+ // Iniciamos la variable para imprimir la matriz, la variable del eje x se quita del argumento de la matriz para inciarla de forma individual
+int main(){
+    int matriz[30][30],x,y; //Declaramos la matriz de 30 x 30
+    int k,a,o,n_m,i,j,s,r,o_r,random1,random2,random3,random4; //Delcaramos todas las variables que necesitamos, la mayoria son para ciclos for
+    char m;
+
+        for(x=0;x<30;x++){
+
+            for(y=0;y<30;y++){
+                matriz[x][y] = 0; // Por cada ciclo le daremos un valor de * a cada uno de los lugares de la matriz
+            }
+        }
+
+
+
+    printf(" \t \t Bienvenido al Programa inteligencia de enjambre \n ");
+    printf("Para comenzar digita el numero de robots: ");
+    scanf("%d",&r); //Ingresar el numero de robots en la variable r
+
+
+
+    srand(time(NULL));
+
+    o_r = r * 2;
+
+    o = o_r + rand() % (o_r); //No usamos la función del numero random por que usa diferente limites
+
+
+    for(j = 0; j<=o; j++){
+
+        random3 = n_random(); //Obtenemos 2 numeros diferentes
+
+        random4 = n_random(); //Usamos la función de obtener un numero random
+
+        for(x=0;x<30;x++){
+
+            for(y=0;y<30;y++){ //Recorremos la matriz como por x Y y
+
+
+                if( x == random3 && random4 == y){
+                    matriz[x][y] = 1; //cuando este en la coordenada que queremos en x y y se escribe el caracter
+
+
+                }
+            }
+        }
+    }
+
+    for(i = 0; i<=o; i++){ //Usamos este for para poder sacar las coordenadas de los objetos
+
+        random3 = n_random(); //Obtenemos 2 numeros diferentes
+
+        random4 = n_random(); //Usamos la función de obtener un numero random
+
+        for(x=0;x<30;x++){
+
+            for(y=0;y<30;y++){
+
+
+                if( x == random3 && random4 == y){
+                    if(matriz[x][y] == 1){
+
+                        random1 = n_random();
+
+                        random2 = n_random();
+
+                        matriz[x][y] = 2;
+
+                    }
+
+
+
+                }
+            }
+        }
+    }
+    for(i = 0; i<=o; i++){ //Usamos este for para poder sacar las coordenadas de los objetos
+
+        random3 = n_random(); //Obtenemos 2 numeros diferentes
+
+        random4 = n_random(); //Usamos la función de obtener un numero random
+
+        for(x=0;x<30;x++){ //Usamos la misma logica para agregar los objetos restantes
+
+            for(y=0;y<30;y++){
+
+
+                if( x == random3 && random4 == y){
+                    if(matriz[x][y] == 1){
+
+                        random1 = n_random();
+
+                        random2 = n_random();
+
+                        matriz[x][y] = 2;
+
+                    }
+                    else if(matriz[x][y] == 1){
+                        matriz[x+1][1+y] = 2;
+                    }
+                    else{
+                    matriz[x+2][y+2] = 3;
+                    }
+
+
+                }
+            }
+        }
+    }
+
+
+
+
+    printf(" Tablero creado! \n"); //Inciamos el juego
+
+    print_matriz(matriz,x,y); //usamos nuestra función para imprimir matriz
+
+    printf(" 1 = Robots, 2 =  objeto 1, 3 = objeto 2\n");
+
+    printf("Ingresa el numero de movimientos a realizar \n ");
+
+    scanf("%d",&n_m); //Ingresa el numero de movimiento a realizar
+
+
+
+    k = 1; //Iniciamos un contador que lleve el numero de movimientos
+
+     while(k<=n_m){   //mientras el contador sea menor al numero de movimientos el ciclo seguirá funcionando
+
+        printf(" \n Para movernos es\n w para ir hacia arriba \n d para ir a la derecha \n a para ir a la izquierda \n s para ir hacia abajo");
+        printf("\n Recuerda que el movimiento sse va hacer a cada uno de los robots \n");
+
+        printf("\n Ingresa el movimiento a realizar: "); //Metemos las instrcucciones y movimientos dentro del ciclo
+        scanf("%c",&m);
+        scanf("%c",&m); //Puse dos scanf por que había un error que no inicializaba el input, leyendo documentación se llegó a la solución de volver a poner la instruccion
+
+
+                 switch(m){ //siwtch evaluara en función a m
+                        case('a'): //si m es una a se inicia el caso
+                            for (x = 0; x<30 ; x++){
+                                for (y = 0; y<30; y++){
+                                    if(matriz[x][y]== 1){ //Si en el recorrida encontramos un 1
+
+                                        if(matriz[x-1][y] == 1){   //En el recorrido le quitamos un número menos es igual a uno sólamente se recorre el uno
+                                            matriz[x-1][y] = 1;
+                                            matriz[x][y] = 0;
+
+                                        }
+
+                                        if(matriz[x-1][y] == 3){
+                                            matriz[x-1][y] = 13;
+                                            matriz[x][y] = 0;
+
+
+                                        }
+
+                                        if(matriz[x-1][y] == 0){
+                                            matriz[x-1][y] = 1;
+                                            matriz[x][y]= 0;
+
+
+                                        }
+                                    }
+                                    if(matriz[x][y] == 12){
+
+                                        if(matriz[x-1][y] == 1){
+                                            matriz[x][y] = 12;
+
+                                        }
+
+                                        if(matriz[x-1][y] == 3){
+                                            matriz[x-1][y] = 13;
+                                            matriz[x][y] = 2;
+
+
+                                        }
+
+                                        if(matriz[x-1][y] == 0){
+                                            matriz[x-1][y] = 12;
+                                            matriz[x][y]= 0;
+
+
+                                        }
+
+
+                                    }
+                                    if(matriz[x][y] == 13){
+                                        if(matriz[x-1][y] == 1){
+                                            matriz[x][y] = 13;
+
+                                        }
+
+                                        if(matriz[x-1][y] == 3){
+                                            matriz[x-1][y] = 13;
+                                            matriz[x][y] = 0;
+
+                                        }
+
+                                        if(matriz[x-1][y] == 0){
+                                            matriz[x-1][y] = 13;
+                                            matriz[x][y]= 0;
+
+                                        }
+
+                                    }
+                                }
+                            }
+
+                            print_matriz(matriz,x,y);
+                            k++;
+                            break;
+                        case('d'):
+                            for (x = 0; x<30 ; x++){
+                                for (y = 0; y<30; y++){
+                                    if(matriz[x][y]== 1){
+                                        if(matriz[x+1][y] == 2){
+                                            matriz[x+1][y] = 12;
+                                            matriz[x][y] = 0;
+
+                                        }
+                                        else if(matriz[x+1][y] == 3){
+                                            matriz[x+1][y] = 13;
+                                            matriz[x][y] = 0;
+
+                                        }
+
+                                        else if(matriz[x+1][y] == 0) {
+                                            matriz[x+1][y] = 1;
+                                            matriz[x][y] = 0;
+
+
+
+                                        }
+                                    }
+                                    if(matriz[x][y] == 12){
+                                        if(matriz[x+1][y] == 1){
+                                            matriz[x][y] = 13;
+                                        }
+
+                                        if(matriz[x+1][y] == 3){
+                                            matriz[x+1][y] = 13;
+                                            matriz[x][y] = 0;
+
+                                        }
+
+                                        if(matriz[x+1][y] == 0){
+                                            matriz[x+1][y] = 13;
+                                            matriz[x][y]= 0;
+
+                                        }
+
+                                    }
+
+                                    if(matriz[x][y] == 13){
+                                        if(matriz[x+1][y] == 1){
+                                            matriz[x][y] = 13;
+
+                                        }
+
+                                        if(matriz[x-1][y] == 3){
+                                            matriz[x+1][y] = 13;
+                                            matriz[x][y] = 0;
+
+                                        }
+
+                                        if(matriz[x+1][y] == 0){
+                                            matriz[x-1][y] = 13;
+                                            matriz[x][y]= 0;
+
+                                        }
+
+                                    }
+
+                                }
+                            }
+                            print_matriz(matriz,x,y);
+                            k++;
+                            break;
+                        case('s'):
+                            for (x = 0; x<30 ; x++){
+                                for (y = 0; y<30; y++){
+                                    if(matriz[x][y]== 1){
+                                        if(matriz[x][y+1] == 2){
+                                            matriz[x][y+1] = 12;
+                                            matriz[x][y] = 0;
+
+                                        }
+                                        else if(matriz[x][y+1] == 3){
+
+                                            matriz[x][y+1] = 13;
+                                            matriz[x][y] = 0;
+
+
+                                        }
+
+                                        else if(matriz[x][y+1] == 0){
+                                            matriz[x][y+1] = 1;
+                                            matriz[x][y] = 0;
+
+
+                                        }
+                                    }
+                                        if(matriz[x][y] == 12){
+                                            if(matriz[x][y+1] == 1){
+                                                matriz[x][y] = 13;
+
+                                            }
+
+                                            if(matriz[x][y+1] == 3){
+                                                matriz[x][y+1] = 13;
+                                                matriz[x][y] = 0;
+
+                                            }
+
+                                            if(matriz[x][y+1] == 0){
+                                                matriz[x][y+1] = 13;
+                                                matriz[x][y]= 0;
+
+                                            }
+
+                                        }
+                                        if(matriz[x][y] == 13){
+                                            if(matriz[x][y+1] == 1){
+                                                matriz[x][y] = 13;
+
+                                            }
+
+                                            if(matriz[x][y+1] == 3){
+                                                matriz[x][y+1] = 13;
+                                                matriz[x][y] = 0;
+
+                                            }
+
+                                            if(matriz[x][y+1] == 0){
+                                                matriz[x][y+1] = 13;
+                                                matriz[x][y]= 0;
+
+                                            }
+
+                                        }
+
+                                    }
+                                }
+                                print_matriz(matriz,x,y);
+                                k++;
+                                break;
+
+                        case('w'):
+                            for (x = 0; x<30 ; x++){
+                                for (y = 0; y<30; y++){
+                                    if(matriz[x][y]== 1){
+                                        if(matriz[x][y - 1] == 2){
+                                            matriz[x][y - 1] = 12;
+                                            matriz[x][y] = 0;
+
+                                        }
+                                        else if(matriz[x][y-1] == 3){
+                                            matriz[x][y-1] = 13;
+                                            matriz[x][y] = 0;
+
+
+                                        }
+
+                                        else if(matriz[x][y-1] == 0) {
+                                            matriz[x][y-1] = 1;
+                                            matriz[x][y] = 0;
+
+
+                                        }
+                                    }
+
+                                    if(matriz[x][y] == 12){
+                                        if(matriz[x][y-1] == 1){
+                                            matriz[x][y] = 13;
+
+                                        }
+
+                                        if(matriz[x][y-1] == 3){
+                                            matriz[x][y+1] = 13;
+                                            matriz[x][y] = 0;
+
+                                        }
+
+                                        if(matriz[x][y-11] == 0){
+                                            matriz[x][y-1] = 13;
+                                            matriz[x][y]= 0;
+
+                                        }
+
+                                    }
+                                if(matriz[x][y] == 13){
+                                    if(matriz[x][y-1] == 1){
+                                        matriz[x][y] = 13;
+
+                                    }
+
+                                    if(matriz[x][y-1] == 3){
+                                        matriz[x][y-1] = 13;
+                                        matriz[x][y] = 0;
+
+                                    }
+
+                                    if(matriz[x][y-1] == 0){
+                                        matriz[x][y-1] = 13;
+                                        matriz[x][y]= 0;
+
+                                    }
+
+                                }
+                            }
+                        }
+                            print_matriz(matriz,x,y);
+                            k++;
+                            printf("\n %d",k);
+                            break;
+
+                        default:
+                            printf("\n Ingresa una letra valida ");
+
+
+
+
+            }
+        }
+
+
+
+
+    print_matriz(matriz,x,y);
+
+
+
+return 0;
+}
+int print_matriz(int matriz[][30],int x,int y){ //Función para imprimir la matriz
+
+        for(x=0;x<30;x++){
+                                                //Reeorremos como el eje x Y y de la matriz y eso lo vamos a ir imprimiendo
+            for(y=0;y<30;y++){
+                printf("%d",matriz[x][y]);
+
+                printf("\t");
+
+            }
+            printf("\n");
+
+            printf("\t");
+
+            printf("\n"); //Cada ciclo hacemos un salto de línea para que tome forma de matriz
+
+        }
+    }
+    int n_random(){
+    int random; //Declaramos una variable local llamada random
+    srand(time(NULL));// Delcaramos que la funcion principal para que el random sea totalmente random, es quitarle el tiempo de ejcución de sus argumentos
+    random = rand() % 31; //el numero random tendra un limite de 30
+
+    return random; //retornamos el valor que nos dio random
+
+    }
